@@ -1,0 +1,158 @@
+# Jupyter tips
+
+Esc M # markdown
+Esc Y # code
+
+Esc H # help
+
+markdown supports Latex
+
+Shift + Tab # for short docstring
+Shift + Tab # again for longer docstring
+
+#### PYTHON BEST PRACTICES (pdf from Day 2)
+
+naming convention
+- lowercase, with underscores
+
+SnakeCase
+- for writing classes
+
+DRY
+- don't repeat yourself
+- refactor, encapsulate
+
+Documenting your code:
+- better to summarise your comments throughout a function into a docstring
+
+import this # in terminal, this prints 'The Zen of Python' by Tim Peters
+
+note, enumerate with a tuple, if you name each elem in the tuple,
+will unpack the tuple
+
+# iterating through words in a sentence (example):
+if "cats" in sentence.split():
+	...
+
+# not so good way of opening file:
+file = open('file.txt')
+	# this can raise an exception, leaving the file open
+file.close() # you may forget to close it
+
+# for opening file, BETTER:
+with open('file.txt') as f:
+	....
+
+# Truthiness
+if numlist: # as long as not an empty container, will return True
+	...
+
+vs.
+
+if len(numlist) > 0:
+
+None type structure is also automaticall False
+
+# Fail loudly
+# - raise exceptions (or even captre then)
+if len(class_list) % 2 != 0:
+	raise VallueError('some warning')
+
+
+module is any script
+
+a package is any folder with __init__ (py file)
+
+#### DEEP SHALLOW vs. COPYING 
+
+copying a string, if you change the original, the copy does not change
+- copy contents (deep copy)
+
+copying a list, if you change the original, the copy DOES change!
+- copy pointer/label/view (shallow copy)
+- so the pointer always points to the original
+l2 = l1, l2 will aways copy l1's state
+
+IMMUTABLE are always DEEP copy (int, float, str, bool, tuple)
+- basically, copying an immutable essentially creates a new object
+
+MUTABLE are always SHALLOW copy (list, dict, set)
+
+# deep copying of containers (to avoid changing original)
+from copy import deepcopy
+
+# or using slicing
+l3 = l1[:] # any changes to l1 will NOT be reflected in l3
+
+Most important is that you always want to make a copy (new object)
+so that you don't change the original object that you may need later
+
+
+### REVIEW OF PAIR PROGRAMMING DAY 1
+
+look up round robin tournament
+
+#### GIT PULL REQUESTS
+
+note that a 'pull request' is a request for someone else to pull your changes
+- pull (my changes) request
+
+#### REVERTING GIT CHANGES
+
+# 1) you have NOT YET ADDED changes to index --> revert using `git checkout`
+git status # remember, if file in GREEN, you already added
+git checkout -- <full file path>
+git status # always check status
+
+# if you instead pushed it all the way (i.e. to upstream),
+# the only way you can revert is to copy the original version of the file
+# from upstream down to your repo (rewrite)
+git checkout upstream/master -- <filepath>
+
+# another strategy is to create a 'local' directory
+# then createa a gitignore file (see Ramesh's example in the upstream repo)
+
+vi ~/.gitignore_global
+
+#### DESIGN
+
+do minimum required (minimum viable product or MVP)
+to answer the question
+
+## Iterative Design Process
+
+Empathise
+- what does a client/user need?
+- what functionality would be valuable TO THEM
+
+Define
+- define problem, INCLUDING all known parameters
+
+Ideate
+- the 'brainstorming' step
+- various approaches, functionalities, issue
+
+Prototype
+- build something 100% now
+- it doesn't need to be 100% quality, but IT NEEDS TO BE 100% DONE
+
+Test
+- how good is 'good enough'?
+- define upfront what is our finishing point
+
+Where do we iterate?
+Ideate --> Prototype --> Test --> Repeat
+
+## 7 Rules of Brainstorming
+- defer judgment
+- encourage wild ideas
+- build on ideas of others
+- stay on topic
+- one conversation at a time
+- be visual
+- go for quantity
+
+
+
+
+
