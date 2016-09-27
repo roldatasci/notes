@@ -1,0 +1,37 @@
+Week 2 Day 2 (Day 6) Notes
+
+ML
+- representation - extracting structure from data (unsupervised)
+- generalisation - making predictions from data (supervised)
+
+ML Problems
+- supervised (labeled set of input-output pairs, map inputs to outputs)
+e.g. OCR, credit scoring (each observation has  vector of outpt)
+
+- unsupervised (no labels, learn patterns and structure)
+e.g. clustering
+
+feature space (predictors)
+
+supervised
+- regression (continuous), classification (categorical)
+unsupervised
+- dimensionality reduction (continuous), clustering (categorical)
+
+inputs - features
+outputs - target, response, output, dep. var, labels
+row - observation, record
+
+feature vector (or vector of features)
+- each observation's value for each dimension/feature
+
+find the right features
+- feature engineering
+
+#### WEBSCRAPING
+
+add downtime
+use API over just scraping
+
+Selenium allows you to interact with website
+
