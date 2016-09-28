@@ -1,0 +1,23 @@
+# starter scrapping code snippets that may be useful
+
+import requests
+from bs4 import BeautifulSoup
+
+# Adding Headers to Requests (To pretend you are not a bot)
+headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5)'}
+url = "http://boxofficemojo.com/movies/?id=biglebowski.htm"
+resp = requests.get(url, headers=headers)
+if resp.ok:
+    soup = BeautifulSoup(resp.text, 'lxml')
+
+# Save file
+with open("biglebowski.html", 'w') as f: # you may need to say 'wb' for Python2
+    f.write(resp.text)
+    
+# Later Load the file into soup
+soup = BeautifulSoup(open("biglebowski.html").read())
+    
+# To add delay when you are scrapping inside a Loop
+import time
+time.sleep(np.random.random())
+

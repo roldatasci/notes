@@ -1,0 +1,74 @@
+# week 2 day 2 notes
+
+y_beta = predicted y
+y_beta(x_obs^(0)) is the predicted y for observed x (0th observation)
+
+minimise with respect to b0, b1
+
+J(b0, b1) is the 'cost' or 'loss' function to be minimised
+- sum of squared errors
+- 1/2m is just a scalar
+- plots every possible set of the parameters
+- find the minimum of this surface to find the optimal set of parameters
+
+import statsmodels.formula.api as sm
+linmodel = sm.OLS(Y,X).fit()
+
+test on hold out set only
+
+#### REGULARISATION
+
+L2 regularisation or ridge regression
+
+weighted sum of the squares of the betas
+- if beta is really big, cost function will be really big
+- the penalty term shrinks/penalises the bigger parameters
+- keeps all the betas smaller
+- lambda is a hyperparameter
+- if lambda = 0, just the basic regression
+- the larger the lambda, the more the coeffs tend to zero
+
+train, test, validation set
+- train the model
+- test (for lambda)
+- cross-validation (after model is fully tuned, incl lambda)
+
+.1, 1, 10, 100 <- test lambdas by orders of magnitude (factor of 10)
+
+Lasso, uses sum of absolute value
+
+Elastic Net (combines L1 and L2)
+
+Comparison
+- ridge lowers all betas
+- lasso will send certain betas to zero and keep others
+- elastic net find the balance of both approaches
+
+need to scale features (normalise, standardise)
+
+
+
+#### CODE SNIPPETS FOR INTRO TO REGRESSION NOTEBOOK EXERCISES
+
+# STUDENT SECTION
+# Create the 3 new columns initialized to 0
+df['hr_low'] = 0
+df['hr_med'] = 0
+df['hr_high'] = 0
+# You can do this the same way you might add a new entry to a Dict
+
+# Use a map function on each new column to make it a 1 if it should be, 0 otherwise
+df['hr_low'] = df.apply(lambda row: 1 if 0 <= row["hr"] <= 6 or 20 <= row["hr"] <= 23 else 0, axis=1)
+df['hr_med'] = df.apply(lambda row: 1 if 9 <= row["hr"] <= 16 else 0, axis=1)
+df['hr_high'] = df.apply(lambda row: 1 if 7 <= row["hr"] <= 8 or 17 <= row["hr"] <= 19 else 0, axis=1)
+
+# using map instead of apply
+df['hr_low'] = df['hr'].map(lambda x: 1 if 0 <= x <= 6 or 20 <= x <= 23 else 0)
+df['hr_med'] = df['hr'].map(lambda x: 1 if 9 <= x <= 16 else 0)
+df['hr_high'] = df['hr'].map(lambda x: 1 if 7 <= x <= 8 or 17 <= x <= 19 else 0)
+
+
+
+
+
+
