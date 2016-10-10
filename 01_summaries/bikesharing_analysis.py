@@ -6,7 +6,7 @@
 # - visualisation with seaborn (fig, ax syntax)
 # - LinearRegression with sklearn
 # - indicator variables
-# - automatic cross-validation (RidgeCV vs. train_test_split)
+# - automatic fitting AND cross-validation (RidgeCV vs. train_test_split)
 
 
 ## STANDARD IMPORTS
