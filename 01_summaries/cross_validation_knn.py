@@ -294,6 +294,21 @@ print(rand.best_params_)
 # 0.98
 # {'n_neighbors': 20, 'weights': 'uniform'}
 
+# run RandomizedSearchCV 20 times (with n_iter=10) and record the best score
+best_scores = []
+for _ in range(20):
+    rand = RandomizedSearchCV(knn, param_dist, cv=10, scoring='accuracy', n_iter=10)
+    rand.fit(X, y)
+    best_scores.append(round(rand.best_score_, 3))
+print(best_scores)
+# [0.97999999999999998, 0.97999999999999998, 0.97999999999999998, 
+# 0.97299999999999998, 0.97999999999999998, 0.97999999999999998, 
+# 0.97999999999999998, 0.97299999999999998, 0.97999999999999998, 
+# 0.97999999999999998, 0.97999999999999998, 0.97299999999999998, 
+# 0.97999999999999998, 0.97999999999999998, 0.97999999999999998, 
+# 0.97299999999999998, 0.97999999999999998, 0.97999999999999998, 
+# 0.97999999999999998, 0.97999999999999998]
+
 
 ## K-FOLD CROSS-VALIDATION FOR MODEL SELECTION
 
