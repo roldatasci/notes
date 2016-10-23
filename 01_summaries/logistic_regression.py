@@ -24,6 +24,8 @@ import seaborn as sns
 from sklearn import preprocessing
 from sklearn.cross_validation import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, 
+roc_auc_score, roc_curve
 
 ## NOTE: 
 # `cross_validation` module deprecated to `model_selection` module
@@ -83,6 +85,8 @@ hist1 = plt.hist(X_train.loc[y==1,'Age'],bins=120,range=[0,120]);
 plt.subplot(2, 1, 2)
 hist0 = plt.hist(X_train.loc[y==0,'Age'],bins=120,range=[0,120]);
 
+# - alternatively, check the counts for each class
+
 
 ## FITTING A LOGISTIC REGRESSION MODEL
 
@@ -91,18 +95,39 @@ X_train_1 = X_train.loc[:,['Gender','Age','Autopsy']]
 X_test_1 = X_test.loc[:,['Gender','Age','Autopsy']]
 
 # fit a logistic model
-model_lr = LogisticRegression()
-model_lr.fit(X_train_1, y_train)
+model = LogisticRegression()
+fit = model.fit(X_train_1, y_train)
 
-# compute predicted probabilities
+# compute predicted values
+y_pred_vals = fit.predict(X_test_1)
+
+# compute predicteod probabilities
 # - the probabilities are in the second column
-pred_vals_lr = model_lr.predict_proba(X_test_1)
+y_pred_prob = model.predict_proba(X_test_1)
+
 
 # plot of the predicted probabilities (second column = col at index 1)
-plt.hist(pred_vals_lr[:,1]) 
+plt.hist(y_pred_prob[:,1]) 
 
 
-## CHECKING ROC CURVE and AREA UNDER CURVE
+## CHECKING ACCURACY with `accuracy_score` and `confusion_matrix`
+
+# CHECKING CONFUSION MATRIX
+
+# - rows are true state (+, -), columns are predicted state (+, -)
+# - top left = true positive / hit / recall / sensitivity / correct identification
+# - top right = false negative / miss / type 2 error / incorrect rejection
+# - bottom left = false positive/alarm / type 1 error / incorrect identification
+# - bottom right = true negative / specificity / correct rejection
+
+confusion_matrix(y_test, y_pred_vals)
+
+# CHECKING ACCURACY SCORE
+
+accuracy_score(y_test, y_pred_vals)
+
+
+## PLOTTING PRECISION-RECALL CURVE
 
 # function similar to roc_curve function in sklearn.metrics
 def pr_curve(truthvec, scorevec, digit_prec=2):
@@ -124,24 +149,26 @@ def pr_curve(truthvec, scorevec, digit_prec=2):
     return (recallvec, precisionvec, threshvec)
 
 # plot the curve
-pr_curve(y_test,pred_vals_lr[:,1]);
+pr_curve(y_test,y_pred_prob[:,1]);
 
 # retrieve recall, precision, and threshold arrays
-recallvec, precisionvec, threshvec = pr_curve(y_test,y_pred[:,1]);
+recallvec, precisionvec, threshvec = pr_curve(y_test,y_pred_prob[:,1]);
 
 # find the threshold at which recall and precision are balanced
 prcurvedf = pd.DataFrame(list(zip(recallvec, precisionvec, threshvec)))
 prcurvedf[prcurvedf.iloc[:,0] == prcurvedf.iloc[:,1]]
 
+
+## PLOTTING ROC CURVE and FINDING AREA UNDER CURVE
+
 # `roc_curve` function in sklearn.metrics
 # - plot true positive rate (y-axis) vs false positive rate (x-axis)
 # - ideal is a right angle line along the y-axis and top border
-from sklearn.metrics import roc_auc_score, roc_curve
-fpr, tpr, thresholds = roc_curve(y_test,pred_vals_lr[:,1])
+fpr, tpr, thresholds = roc_curve(y_test,y_pred_prob[:,1])
 plt.plot(fpr, tpr)
 
 # ROC area under curve (ideal is as close to 1 as possible)
-roc_auc_score(y_test,pred_vals_lr[:,1])
+roc_auc_score(y_test,y_pred_prob[:,1])
 
 
 
